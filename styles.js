@@ -52,5 +52,21 @@ export default StyleSheet.create({
         backgroundColor: "#FFFFFF",
         fontSize: 15,
         paddingTop: 10
+    },
+    destinationName: {
+        fontSize: 26,
+        paddingLeft: 20,
+    },
+    destinationAdd: {
+        fontSize: 16,
+        paddingLeft: 35,
+    },
+    destinationHeader: {
+        fontSize: 36,
+    },
+    destinationView: {
+        backgroundColor: "#AAAAFF",
+        paddingHorizontal: 10,
+        paddingVertical: 10
     }
   });

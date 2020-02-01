@@ -23,6 +23,14 @@ export default class App extends Component {
                     },
                 });
             },
+            clear: () => {
+              this.setState({
+                savedItineraries: {
+                  ...this.state.savedItineraries,
+                  list: [],
+              },
+              })
+            }
         },
     };
 

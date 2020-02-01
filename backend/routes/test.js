@@ -18,6 +18,7 @@ router.get("/", (req, res) => {
     Axios.get(urlForAPI) // put url when ready
         .then(
             response => { 
+                console.log(response.data)
                 res.send({
                     status: "ok",
                     info: response.data

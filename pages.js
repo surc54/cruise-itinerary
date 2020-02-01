@@ -10,6 +10,8 @@ import UselessTextInput from "./textInput.js";
 import Axios from "axios";
 import SavedItineraries from "./destination.js";
 
+var searchTerms = ["breakfast", "lunch", "dinner", "art", "music", "family activities", "shopping"];
+
 export class Page1 extends Component {
     render() {
         return (
@@ -80,20 +82,25 @@ export class Page2 extends Component {
                         {val => (
                             <Button
                                 title="Search and Create!"
-                                onPress={() => {
-                                    this.props.history.push("/page4");
-                                    Axios.get("http://10.136.19.7/test", {
-                                        params: {
-                                            search:
-                                                "breakfast " +
-                                                this.state.destination,
-                                        },
-                                    }).then(response => {
-                                        val.add(
-                                            response.data.info.candidates[0],
-                                        );
-                                        // console.log(response.data);
-                                    });
+                                onPress={async() =>  {
+                                    val.clear();
+                                    for (let i = 0; i < searchTerms.length; i++) {
+                                        this.props.history.push("/page4");
+                                        await
+                                        Axios.get("http://10.136.22.161/test", {
+                                            params: {
+                                                search:
+                                                    searchTerms[i] + " places in " +
+                                                    this.state.destination,
+                                            },
+                                        }).then(response => {
+                                            val.add(
+                                                response.data.info
+                                                    .candidates[0],
+                                            );
+                                            
+                                        });
+                                    }
                                 }}
                             />
                         )}
@@ -132,16 +139,27 @@ export class Page4 extends Component {
         return (
             <SavedItineraries.Consumer>
                 {val => (
-                    <View>
-                        <Text>
-                            Page4: Testing getting results from Google API
-                        </Text>
-                        <Text>list length: {val.list.length}</Text>
-                        <Text>{val.list.length > 0 && val.list[0].formatted_address}</Text>
+                    <>
+                    <View style = { styles.destinationView }>
+                        {(() => {
+                            let arr = [];
+                            for (let i = 0; i < val.list.length; i++) {
+                                if (i == 0)
+                                    arr.push(<Text style = { styles.destinationHeader }> Food </Text> )
+                                else if (i == 3)
+                                    arr.push(<Text style = { styles.destinationHeader }> Entertainment </Text> )
+                                else if (i == 6)
+                                    arr.push(<Text style = { styles.destinationHeader }> Shopping </Text> )
+                                arr.push(<Text style = { styles.destinationName }> • { val.list[i].name } </Text>)
+                                arr.push(<Text style = { styles.destinationAdd }> { val.list[i].formatted_address } </Text>)
+                            }
+                            return arr;
+                        }) ()}
                         <Link to="/">
                             <Text>Bad Dhruv</Text>
                         </Link>
                     </View>
+                    </>
                 )}
             </SavedItineraries.Consumer>
         );
