@@ -14,16 +14,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(morgan("dev"));
 
-database.connect(err => {
-    if (err) {
-        console.error("ERROR".bgRed.black + " Could not connect to database.");
-        console.log(err);
-        process.exit(1);
-        return;
-    }
+// database.connect(err => {
+//     if (err) {
+//         console.error("ERROR".bgRed.black + " Could not connect to database.");
+//         console.log(err);
+//         process.exit(1);
+//         return;
+//     }
 
-    console.log("Successfully connected to the database.".green);
-});
+//     console.log("Successfully connected to the database.".green);
+// });
 
 app.use(routers);
 
