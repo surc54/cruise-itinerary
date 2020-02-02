@@ -25,12 +25,12 @@ export default StyleSheet.create({
         textDecorationLine: 'underline',
     },
     destinationTitle: {
-      backgroundColor: "#09367A",
-      textAlign: "center",
-      fontSize: 36,
-      paddingTop: 20,
-      textDecorationLine: "underline"
-  },
+        backgroundColor: "#09367A",
+        textAlign: "center",
+        fontSize: 36,
+        paddingTop: 20,
+        textDecorationLine: "underline",
+    },
     buttonBackground: {
         backgroundColor: "#09367A",
         paddingTop: 35,
@@ -49,7 +49,7 @@ export default StyleSheet.create({
         textAlign: "left",
         paddingLeft: 30,
         paddingTop: 7,
-        color: '#FFFFFF'
+        color: "#FFFFFF",
     },
     flex: {
         flexDirection: "row",
@@ -69,20 +69,20 @@ export default StyleSheet.create({
         paddingTop: 10,
         paddingLeft: 15,
     },
-     destinationName: {
+    destinationName: {
         fontSize: 26,
         paddingLeft: 10,
         backgroundColor: "#09367A",
         marginHorizontal: 5,
-        color: '#FFFFFF'
+        color: "#FFFFFF",
     },
     destinationAdd: {
         fontSize: 16,
-        paddingLeft: 5 ,
+        paddingLeft: 5,
         backgroundColor: "#09367A",
         marginHorizontal: 5,
         paddingBottom: 5,
-        color: '#FFFFFF'
+        color: "#FFFFFF",
     },
     destinationHeader: {
         fontSize: 36,
@@ -90,7 +90,7 @@ export default StyleSheet.create({
         backgroundColor: "#F20018",
         borderRadius: 5,
         display: "flex",
-        marginTop: 5
+        marginTop: 5,
     },
     destinationView: {
         backgroundColor: "#09367A",
@@ -100,12 +100,12 @@ export default StyleSheet.create({
     WYWG: {
         fontSize: 36,
         textAlign: "center",
-        color: '#FFFFFF'
+        color: "#FFFFFF",
     },
     clickerTitle: {
         paddingBottom: 45,
         fontSize: 36,
         textAlign: "center",
-        color: '#FFFFFF'
-    }
-})
+        color: "#FFFFFF",
+    },
+});
