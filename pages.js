@@ -25,20 +25,24 @@ export class Home extends Component {
     render() {
         return (
             <>
-                <StatusBar barStyle="dark-content" backgroundColor="#EEAA53" />
+                <StatusBar barStyle="light-content" backgroundColor="#F20018" />
                 <View style={styles.homeBackground}>
                     <Text style={styles.homeTitle}>Welcome Message</Text>
                 </View>
                 <View style={styles.homeButtonBackground}>
                     <Button
-                        title="Create A New Iteneraries"
-                        onPress={() => this.props.history.push("/new_itinerary")}
+                        title="Create A New Itineraries"
+                        onPress={() =>
+                            this.props.history.push("/new_itinerary")
+                        }
                     />
                 </View>
                 <View style={styles.homeButtonBackground}>
                     <Button
-                        title="View Saved Iteneraries"
-                        onPress={() => this.props.history.push("/select_itinerary")}
+                        title="View Saved Itineraries"
+                        onPress={() =>
+                            this.props.history.push("/select_itinerary")
+                        }
                     />
                 </View>
                 <View style={styles.bodyFiller} />
@@ -53,10 +57,10 @@ export class New_itinerary extends Component {
     render() {
         return (
             <>
-                <StatusBar barStyle="dark-content" backgroundColor="#AAAAFF" />
+                <StatusBar barStyle="light-content" backgroundColor="#09367A" />
                 <View>
                     <Text style={styles.newItTitle}>
-                        Create A New Itenerary
+                        Create A New Itinerary
                     </Text>
                 </View>
                 <View style={styles.flex}>
@@ -96,29 +100,41 @@ export class New_itinerary extends Component {
                                 title="Search and Create!"
                                 onPress={async () => {
                                     val.clear();
-                                    for (
-                                        let i = 0;
-                                        i < searchTerms.length;
-                                        i++
-                                    ) {
-                                        this.props.history.push("/destinations");
-                                        await Axios.get(
-                                            "http://10.136.22.161/test",
-                                            {
-                                                params: {
-                                                    search:
-                                                        searchTerms[i] +
-                                                        " places in " +
-                                                        this.state.destination,
-                                                },
+
+                                    this.props.history.push("/destinations");
+
+                                    Axios.get(
+                                        "http://10.136.22.161/test/multi",
+                                        {
+                                            params: {
+                                                array: searchTerms
+                                                    .map(
+                                                        x =>
+                                                            x +
+                                                            " places in " +
+                                                            this.state
+                                                                .destination,
+                                                    )
+                                                    .join(","),
                                             },
-                                        ).then(response => {
-                                            val.add(
-                                                response.data.info
-                                                    .candidates[0],
+                                        },
+                                    )
+                                        .then(response => {
+                                            if (response.data.status != "ok") {
+                                                console.error("error big no");
+                                            } else {
+                                                // console.log(response.data.data);
+                                                response.data.data.forEach(x =>
+                                                    val.add(x),
+                                                );
+                                            }
+                                        })
+                                        .catch(err => {
+                                            console.error(
+                                                "error big big no",
+                                                err,
                                             );
                                         });
-                                    }
                                 }}
                             />
                         )}
@@ -126,7 +142,7 @@ export class New_itinerary extends Component {
                 </View>
                 <View style={styles.buttonBackground}>
                     <Button
-                        title="Go Back and view Saved Iteneraries"
+                        title="Go Back and view Saved Itineraries"
                         onPress={() => {
                             this.props.history.push("/select_itinerary");
                         }}
@@ -144,7 +160,7 @@ export class Select_itinerary extends Component {
             <>
                 <StatusBar barStyle="dark-content" backgroundColor="#AAAAFF" />
                 <View>
-                    <Text>I am God</Text>
+                    <Text>Soon to be Itinerary</Text>
 
                     <Link to="/">
                         <Text>Bad Dhruv</Text>
@@ -155,13 +171,11 @@ export class Select_itinerary extends Component {
     }
 }
 
-let clicked = 0;
-
 export class Destinations extends Component {
     render() {
         return (
             <>
-                <StatusBar barStyle="dark-content" backgroundColor="#AAAAFF" />
+                <StatusBar barStyle="light-content" backgroundColor="#09367A" />
 
                 <ScrollView>
                     <SavedItineraries.Consumer>
@@ -210,8 +224,15 @@ export class Destinations extends Component {
                                                 onPress={() => {
                                                     this.props.history.push(
                                                         "/new_event",
+                                                        {
+                                                            name:
+                                                                val.list[i]
+                                                                    .name,
+                                                            address:
+                                                                val.list[i]
+                                                                    .formatted_address,
+                                                        },
                                                     );
-                                                    clicked = i;
                                                 }}>
                                                 {" "}
                                                 • {val.list[i].name}{" "}
@@ -223,8 +244,15 @@ export class Destinations extends Component {
                                                 onPress={() => {
                                                     this.props.history.push(
                                                         "/new_event",
+                                                        {
+                                                            name:
+                                                                val.list[i]
+                                                                    .name,
+                                                            address:
+                                                                val.list[i]
+                                                                    .formatted_address,
+                                                        },
                                                     );
-                                                    clicked = i;
                                                 }}>
                                                 {" "}
                                                 {
@@ -249,39 +277,47 @@ export class Destinations extends Component {
 }
 
 export class New_event extends Component {
-    
+    state = {
+        name: this.props.location.state.name,
+        address: this.props.location.state.address,
+        startTime: "",
+        endTime: "",
+    };
+
     render() {
         return (
             <>
-                <StatusBar barStyle="dark-content" backgroundColor="#AAAAFF" />
+                <StatusBar barStyle="light-content" backgroundColor="#09367A" />
 
                 <View style={styles.buttonBackground}>
                     <Text style={styles.WYWG}> When do you want to go to </Text>
-                    <SavedItineraries.Consumer>
-                        {val => (
-                            <Text style={styles.clickerTitle}>
-                                {" "}
-                                {val.list[clicked].name} ?{" "}
-                            </Text>
-                        )}
-                    </SavedItineraries.Consumer>
+                    <Text style={styles.clickerTitle}>{this.state.name}?</Text>
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Destination:</Text>
-                    <UselessTextInput 
+                    <UselessTextInput                         
+                        value={this.state.timeStart}
                         placeholder="12:00 AM"
-                    />
+                        onChangeText={text =>
+                        this.setState({timeStart: text})
+                        } />
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Arrival Time:</Text>
-                    <UselessTextInput 
+                    <UselessTextInput
+                        value={this.state.timeEnd}
                         placeholder="12:00 PM"
+                        onChangeText={text =>
+                            this.setState({timeEnd: text})
+                        }
                     />
                 </View>
                 <View style={styles.buttonBackground}>
                     <Button
                         title="Add to Itinerary"
-                        onPress={() => this.props.history.push("/select_itinerary")}
+                        onPress={() =>
+                            this.props.history.push("/select_itinerary")
+                        }
                     />
                 </View>
                 <View style={styles.buttonBackground}>
