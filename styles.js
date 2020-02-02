@@ -1,87 +1,110 @@
-import { StyleSheet } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {StyleSheet} from "react-native";
+import {Colors} from "react-native/Libraries/NewAppScreen";
 
 export default StyleSheet.create({
     scrollView: {
-      backgroundColor: Colors.lighter,
+        backgroundColor: Colors.lighter,
     },
     homeBackground: {
-      backgroundColor: "#EEAA53",
+        backgroundColor: "#F20018",
     },
     homeTitle: {
-      textAlign: 'center',
-      fontSize: 48,
-      paddingTop: 120,
-      paddingBottom: 110,
-      color: "#FFFFFF"
+        textAlign: "center",
+        fontSize: 48,
+        paddingTop: 120,
+        paddingBottom: 110,
+        color: "#000000",
     },
     newItTitle: {
-        backgroundColor: "#AAAAFF",
-        textAlign: 'center',
+        backgroundColor: "#09367A",
+        textAlign: "center",
         fontSize: 36,
         paddingTop: 20,
-        paddingBottom: 20
+        paddingBottom: 20,
+        color: "#FFFFFF",
+    },
+    destinationTitle: {
+        backgroundColor: "#09367A",
+        textAlign: "center",
+        fontSize: 36,
+        paddingTop: 20,
+        textDecorationLine: "underline",
     },
     buttonBackground: {
-      backgroundColor: "#AAAAFF",
-      paddingTop: 35,
+        backgroundColor: "#09367A",
+        paddingTop: 35,
     },
     homeButtonBackground: {
-        backgroundColor: "#AAAAFF",
+        backgroundColor: "#09367A",
         paddingTop: 55,
-      },
+    },
     bodyFiller: {
-      backgroundColor: "#AAAAFF",
-      padding: 500,
+        backgroundColor: "#09367A",
+        padding: 500,
     },
     textBoxTitle: {
-        backgroundColor: "#AAAAFF",
+        backgroundColor: "#09367A",
         fontSize: 18,
-        textAlign: 'left',
+        textAlign: "left",
         paddingLeft: 30,
         paddingTop: 7,
+        color: "#FFFFFF",
     },
     flex: {
-        flexDirection: 'row',
-        backgroundColor: "#AAAAFF",
-        justifyContent: 'space-between',
+        flexDirection: "row",
+        backgroundColor: "#09367A",
+        justifyContent: "space-between",
         paddingRight: 20,
-        paddingVertical: 20
+        paddingVertical: 20,
     },
     textBox: {
-        height: 40, 
-        borderColor: 'gray', 
-        borderWidth: 3.5, 
-        width: 200, 
-        marginLeft: 30, 
+        height: 40,
+        borderColor: "gray",
+        borderWidth: 3.5,
+        width: 200,
+        marginLeft: 30,
         backgroundColor: "#FFFFFF",
         fontSize: 15,
         paddingTop: 10,
-        paddingLeft: 15
+        paddingLeft: 15,
     },
     destinationName: {
         fontSize: 26,
-        paddingLeft: 20
+        paddingLeft: 10,
+        backgroundColor: "#09367A",
+        marginHorizontal: 5,
+        color: "#FFFFFF",
     },
     destinationAdd: {
         fontSize: 16,
-        paddingLeft: 35,
+        paddingLeft: 5,
+        backgroundColor: "#09367A",
+        marginHorizontal: 5,
+        paddingBottom: 5,
+        color: "#FFFFFF",
     },
     destinationHeader: {
         fontSize: 36,
+        color: "black",
+        backgroundColor: "#F20018",
+        borderRadius: 5,
+        display: "flex",
+        marginTop: 5,
     },
     destinationView: {
-        backgroundColor: "#AAAAFF",
+        backgroundColor: "#09367A",
         paddingHorizontal: 10,
-        paddingVertical: 10
+        paddingVertical: 10,
     },
     WYWG: {
         fontSize: 36,
-        textAlign: 'center'
+        textAlign: "center",
+        color: "#FFFFFF",
     },
     clickerTitle: {
         paddingBottom: 45,
         fontSize: 36,
-        textAlign: 'center'
-    }
-  });
+        textAlign: "center",
+        color: "#FFFFFF",
+    },
+});
