@@ -4,6 +4,18 @@ import db, {query} from "../db.js";
 
 const router = express.Router();
 
+router.get("/latest", (req, res) => {
+    if (!req.session.user) {
+        throw new Error("Action requires user to be logged in.");
+    }
+
+    query(`SELECT id FROM ITINERARIES ORDER BY id DESC LIMIT 1`)
+        .then(results => {
+            res.json({id: results[0].id});
+        })
+        .catch(err => res.json({err: err.messsage || "unknown error"}));
+});
+
 router.put("/", async (req, res) => {
     let {destination, arrivalTime, departureTime} = req.body;
 
@@ -56,6 +68,27 @@ router.get("/", (req, res) => {
     WHERE USERS.id = ${req.session.user};`).then(results => {
         res.json(results);
     });
+});
+
+router.get("/details", (req, res) => {
+    if (!req.session.user) {
+        throw new Error("Action requires user to be logged in.");
+    }
+
+    const {itineraryId} = req.query;
+
+    if (!itineraryId) throw new Error("no id, no service");
+
+    query(`SELECT arrival_time, departure_time, d.name AS destination FROM
+    (ITINERARIES as i inner join USERS on i.user_id=USERS.id) inner join DESTINATIONS as d on d.id = i.destination_id WHERE i.id = ${itineraryId};`).then(
+        result => res.json(result[0]),
+    );
+
+    // query(`SELECT display_name, d.name AS destination, arrival_time, departure_time, i.id as id
+    // FROM (ITINERARIES as i inner join USERS on i.user_id = USERS.id) inner join DESTINATIONS as d ON d.id = i.destination_id
+    // WHERE USERS.id = ${req.session.user};`).then(results => {
+    //     res.json(results);
+    // });
 });
 
 export default router;
