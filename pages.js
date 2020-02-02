@@ -32,13 +32,17 @@ export class Home extends Component {
                 <View style={styles.homeButtonBackground}>
                     <Button
                         title="Create A New Iteneraries"
-                        onPress={() => this.props.history.push("/new_itinerary")}
+                        onPress={() =>
+                            this.props.history.push("/new_itinerary")
+                        }
                     />
                 </View>
                 <View style={styles.homeButtonBackground}>
                     <Button
                         title="View Saved Iteneraries"
-                        onPress={() => this.props.history.push("/select_itinerary")}
+                        onPress={() =>
+                            this.props.history.push("/select_itinerary")
+                        }
                     />
                 </View>
                 <View style={styles.bodyFiller} />
@@ -101,7 +105,9 @@ export class New_itinerary extends Component {
                                         i < searchTerms.length;
                                         i++
                                     ) {
-                                        this.props.history.push("/destinations");
+                                        this.props.history.push(
+                                            "/destinations",
+                                        );
                                         await Axios.get(
                                             "http://10.136.22.161/test",
                                             {
@@ -163,11 +169,11 @@ export class Destinations extends Component {
             <>
                 <StatusBar barStyle="dark-content" backgroundColor="#AAAAFF" />
 
-                <ScrollView>
+                <ScrollView backgroundColor="#AAAAFF">
                     <SavedItineraries.Consumer>
                         {val => (
                             <View style={styles.destinationView}>
-                                <Text style={styles.newItTitle}>
+                                <Text style={styles.destinationTitle}>
                                     {" "}
                                     Select a Destination:{" "}
                                 </Text>
@@ -233,12 +239,15 @@ export class Destinations extends Component {
                                                 }{" "}
                                             </Text>,
                                         );
+
+                                    
                                     }
+
                                     return arr;
                                 })()}
-                                <Link to="/">
+                                {/* <Link to="/">
                                     <Text>Bad Dhruv</Text>
-                                </Link>
+                                </Link> */}
                             </View>
                         )}
                     </SavedItineraries.Consumer>
@@ -249,7 +258,6 @@ export class Destinations extends Component {
 }
 
 export class New_event extends Component {
-    
     render() {
         return (
             <>
@@ -268,20 +276,18 @@ export class New_event extends Component {
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Destination:</Text>
-                    <UselessTextInput 
-                        placeholder="12:00 AM"
-                    />
+                    <UselessTextInput placeholder="12:00 AM" />
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Arrival Time:</Text>
-                    <UselessTextInput 
-                        placeholder="12:00 PM"
-                    />
+                    <UselessTextInput placeholder="12:00 PM" />
                 </View>
                 <View style={styles.buttonBackground}>
                     <Button
                         title="Add to Itinerary"
-                        onPress={() => this.props.history.push("/select_itinerary")}
+                        onPress={() =>
+                            this.props.history.push("/select_itinerary")
+                        }
                     />
                 </View>
                 <View style={styles.buttonBackground}>

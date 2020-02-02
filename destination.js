@@ -15,18 +15,3 @@ export const withSavedItineraries = (Element) => {
         );
     }
 }
-
-// export default class Destination extends Component {
-//     name = "";
-//     address = "";
-    
-//     constructor() {
-
-//     }
-    
-//     render () {
-//         return(
-
-//         );
-//     }
-// }
