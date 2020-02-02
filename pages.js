@@ -207,7 +207,7 @@ export class Destinations extends Component {
                                                 onPress={() => {
                                                     this.props.history.push(
                                                         "/new_event",
-                                                    );
+                                                    ); 
                                                 }}>
                                                 {" "}
                                                 {
