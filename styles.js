@@ -21,7 +21,8 @@ export default StyleSheet.create({
         fontSize: 36,
         paddingTop: 20,
         paddingBottom: 20,
-        color: '#FFFFFF'
+        color: '#FFFFFF',
+        textDecorationLine: 'underline',
     },
     destinationTitle: {
       backgroundColor: "#09367A",

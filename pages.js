@@ -176,9 +176,8 @@ export class Destinations extends Component {
     render() {
         return (
             <>
+            <View style={{flex: 1,backgroundColor: '#09367A'}}>
                 <StatusBar barStyle="light-content" backgroundColor="#09367A" />
-
-                {/* <ScrollView> */}
                     <SavedItineraries.Consumer>
                         {val => (
                             <View style={styles.destinationView}>
@@ -186,7 +185,7 @@ export class Destinations extends Component {
                                     {" "}
                                     Select a Destination:{" "}
                                 </Text>
-                                <FlatList data = {val.list} renderItem={({item: x, index}) => <> 
+                                <FlatList data = {val.list} style = {{height: 510}} renderItem={({item: x, index}) => <> 
                                             {index == 0 && (
                                                 <Text
                                                 style = {styles.destinationHeader}>
@@ -236,62 +235,14 @@ export class Destinations extends Component {
                                             </Text>
 
                                 </>} />
-                                
-                                {/* {(() => {
-                                    let arr = [];
-                                        arr.push(
-                                            <Text
-                                                style={styles.destinationName}
-                                                onPress={() => {
-                                                    this.props.history.push(
-                                                        "/new_event",
-                                                        {
-                                                            name:
-                                                                val.list[i]
-                                                                    .name,
-                                                            address:
-                                                                val.list[i]
-                                                                    .formatted_address,
-                                                        },
-                                                    );
-                                                }}>
-                                                {" "}
-                                                • {val.list[i].name}{" "}
-                                            </Text>,
-                                        );
-                                        arr.push(
-                                            <Text
-                                                style={styles.destinationAdd}
-                                                onPress={() => {
-                                                    this.props.history.push(
-                                                        "/new_event",
-                                                        {
-                                                            name:
-                                                                val.list[i]
-                                                                    .name,
-                                                            address:
-                                                                val.list[i]
-                                                                    .formatted_address,
-                                                        },
-                                                    );
-                                                }}>
-                                                {" "}
-                                                {
-                                                    val.list[i]
-                                                        .formatted_address
-                                                }{" "}
-                                            </Text>,
-                                        );
-                                    }
-                                    return arr;
-                                })()} */}
+  
                                 <Link to="/">
                                     <Text>Bad Dhruv</Text>
                                 </Link>
                             </View>
                         )}
                     </SavedItineraries.Consumer>
-                {/* </ScrollView> */}
+                </View>
             </>
         );
     }
