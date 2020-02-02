@@ -5,11 +5,12 @@ import db, {query} from "../db.js";
 const router = express.Router();
 
 router.put("/", (req, res) => {
-    let {itineraryId, timeStart, timeEnd, name} = req.body;
+    let {itineraryId, timeStart, timeEnd, name, address} = req.body;
+    console.log(req.body);
 
-    if (!itineraryId || !timeStart || !timeEnd || !name) {
+    if (!itineraryId || !timeStart || !timeEnd || !name || !address) {
         throw new Error(
-            'Parameters "itineraryId", "timeStart", "name", and "timeEnd" are required.',
+            'Parameters "itineraryId", "timeStart", "name", "address", and "timeEnd" are required.',
         );
     }
 
@@ -17,10 +18,12 @@ router.put("/", (req, res) => {
         throw new Error("Action requires user to be logged in.");
     }
 
-    query(`INSERT INTO STOPS(itinerary_id, time_start, time_end, name)
+    query(`INSERT INTO STOPS(itinerary_id, time_start, time_end, name, applied, address)
         VALUES(${SqlString.escape(Number(itineraryId))}, ${SqlString.escape(
         timeStart,
-    )}, ${SqlString.escape(timeEnd)}, ${SqlString.escape(name)});`)
+    )}, ${SqlString.escape(timeEnd)}, ${SqlString.escape(
+        name,
+    )}, 1, ${SqlString.escape(address)});`)
         .then(results => {
             res.json({
                 status: "ok",
@@ -33,6 +36,7 @@ router.put("/", (req, res) => {
             });
         })
         .catch(err => {
+            console.error(err.message || "unknown error");
             res.json({
                 status: "fail",
                 message: err.message || "unknown error",
@@ -74,9 +78,9 @@ router.get("/", (req, res) => {
     }
 
     query(`
-        SELECT s.id, s.time_start, s.time_end, s.name, s.applied
+        SELECT s.id, i.id as iterId, s.address, s.time_start as startTime, s.time_end as endTime, s.name, s.applied
         FROM STOPS AS s INNER JOIN ITINERARIES as i ON s.itinerary_id = i.id
-        WHERE i.user_id = ${req.session.user};
+        WHERE i.user_id = ${req.session.user} AND i.id = ${itineraryId};
     `)
         .then(results => {
             res.json(results);

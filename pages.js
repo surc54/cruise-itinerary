@@ -1,15 +1,16 @@
 import React, {Component} from "react";
 
-import {Text, View, StatusBar, Button, ScrollView} from "react-native";
+import {Text, View, StatusBar, Button, FlatList} from "react-native";
 
 import {Link} from "react-router-native";
 
 import styles from "./styles.js";
 import UselessTextInput from "./textInput.js";
 
-import Axios from "axios";
+import axios from "./axios";
 import SavedItineraries from "./destination.js";
-import { FlatList } from "react-native-gesture-handler";
+
+const debug = false;
 
 var searchTerms = [
     "breakfast",
@@ -42,7 +43,7 @@ export class Home extends Component {
                     <Button
                         title="View Current Itinerary"
                         onPress={() =>
-                            this.props.history.push("/itinerary")
+                            this.props.history.push("/calendar", {latest: true})
                         }
                     />
                 </View>
@@ -53,7 +54,11 @@ export class Home extends Component {
 }
 
 export class New_itinerary extends Component {
-    state = {destination: "", arrivalTime: "", departureTime: ""};
+    state = {
+        destination: debug ? "Miami" : "",
+        arrivalTime: debug ? "12:00 am" : "",
+        departureTime: debug ? "9:00 pm" : "",
+    };
     render() {
         return (
             <>
@@ -102,11 +107,22 @@ export class New_itinerary extends Component {
                                 onPress={async () => {
                                     val.clear();
 
-                                    this.props.history.push("/destinations");
+                                    axios
+                                        .put("/itinerary", {
+                                            destination: this.state.destination,
+                                            arrivalTime: this.state.arrivalTime,
+                                            departureTime: this.state
+                                                .departureTime,
+                                        })
+                                        .then(res => {
+                                            this.props.history.push(
+                                                "/destinations",
+                                                {iterId: res.data.itinerary.id},
+                                            );
+                                        });
 
-                                    Axios.get(
-                                        "http://10.136.22.161/test/multi",
-                                        {
+                                    axios
+                                        .get("/test/multi", {
                                             params: {
                                                 array: searchTerms
                                                     .map(
@@ -118,8 +134,7 @@ export class New_itinerary extends Component {
                                                     )
                                                     .join(","),
                                             },
-                                        },
-                                    )
+                                        })
                                         .then(response => {
                                             if (response.data.status != "ok") {
                                                 console.error("error big no");
@@ -145,7 +160,9 @@ export class New_itinerary extends Component {
                     <Button
                         title="View Current Itinerary"
                         onPress={() => {
-                            this.props.history.push("/itinerary");
+                            this.props.history.push("/calendar", {
+                                latest: true,
+                            });
                         }}
                     />
                 </View>
@@ -175,10 +192,14 @@ export class Itinerary extends Component {
 
 export class Destinations extends Component {
     render() {
+        const {iterId} = this.props.location.state;
         return (
             <>
-            <View style={{flex: 1,backgroundColor: '#09367A'}}>
-                <StatusBar barStyle="light-content" backgroundColor="#09367A" />
+                <View style={{flex: 1, backgroundColor: "#09367A"}}>
+                    <StatusBar
+                        barStyle="light-content"
+                        backgroundColor="#09367A"
+                    />
                     <SavedItineraries.Consumer>
                         {val => (
                             <View style={styles.destinationView}>
@@ -189,58 +210,72 @@ export class Destinations extends Component {
                                 <FlatList data = {val.list} style = {{height: 525}} renderItem={({item: x, index}) => <> 
                                             {index == 0 && (
                                                 <Text
-                                                style = {styles.destinationHeader}>
-                                                {" "}Food{" "}
+                                                    style={
+                                                        styles.destinationHeader
+                                                    }>
+                                                    {" "}
+                                                    Food{" "}
                                                 </Text>
-                                            )} 
+                                            )}
                                             {index == 3 && (
                                                 <Text
-                                                style = {styles.destinationHeader}>
-                                                {" "}Entertainment{" "} 
+                                                    style={
+                                                        styles.destinationHeader
+                                                    }>
+                                                    {" "}
+                                                    Entertainment{" "}
                                                 </Text>
-                                            )} 
+                                            )}
                                             {index == 6 && (
                                                 <Text
-                                                style = {styles.destinationHeader}>
-                                                {" "}Shopping{" "}
+                                                    style={
+                                                        styles.destinationHeader
+                                                    }>
+                                                    {" "}
+                                                    Shopping{" "}
                                                 </Text>
-                                            )}                                            
+                                            )}
                                             <Text
                                                 style={styles.destinationName}
                                                 onPress={() => {
                                                     this.props.history.push(
-                                                        "/new_event", {
+                                                        "/new_event",
+                                                        {
                                                             name: x.name,
-                                                            address: x.formatted_address
+                                                            address:
+                                                                x.formatted_address,
+                                                            iterId,
                                                         },
                                                     );
                                                 }}>
                                                 {" "}
                                                 • {x.name}{" "}
                                             </Text>
-                                            
+
                                             <Text
                                                 style={styles.destinationAdd}
                                                 onPress={() => {
                                                     this.props.history.push(
-                                                        "/new_event", {
+                                                        "/new_event",
+                                                        {
                                                             name: x.name,
-                                                            address: x.formatted_address
+                                                            address:
+                                                                x.formatted_address,
+                                                            iterId,
                                                         },
                                                     );
                                                 }}>
                                                 {" "}
-                                                {
-                                                    x.formatted_address
-                                                }{" "}
+                                                {x.formatted_address}{" "}
                                             </Text>
+                                        </>
+                                    }
+                                />
 
-                                </>} />
-  
                                 <Link to="/New_itinerary">
                                     <Text style = { styles.destinationGoBack }>Pick a new location</Text>
                                 </Link>
-                            </View>
+                                </View>
                         )}
                     </SavedItineraries.Consumer>
                 </View>
@@ -253,11 +288,15 @@ export class New_event extends Component {
     state = {
         name: this.props.location.state.name,
         address: this.props.location.state.address,
-        startTime: "",
-        endTime: "",
+        startTime: debug ? "3:00 pm" : "",
+        endTime: debug ? "4:00 pm" : "",
     };
 
     render() {
+        const {iterId} = this.props.location.state;
+        if (!iterId) {
+            return <Text>No iteration id.</Text>;
+        }
         return (
             <>
                 <StatusBar barStyle="light-content" backgroundColor="#09367A" />
@@ -271,32 +310,36 @@ export class New_event extends Component {
                     <UselessTextInput                         
                         value={this.state.timeStart}
                         placeholder="12:00 AM"
-                        onChangeText={text =>
-                        this.setState({timeStart: text})
-                        } />
+                        onChangeText={text => this.setState({startTime: text})}
+                    />
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Departure:</Text>
                     <UselessTextInput
-                        value={this.state.timeEnd}
+                        value={this.state.endTime}
                         placeholder="12:00 PM"
-                        onChangeText={text =>
-                            this.setState({timeEnd: text})
-                        }
+                        onChangeText={text => this.setState({endTime: text})}
                     />
                 </View>
                 <View style={styles.buttonBackground}>
                     <Button
                         title="Add to Itinerary"
-                        onPress={() =>
-                            this.props.history.push("/itinerary")
-                        }
+                        onPress={() => {
+                            this.props.history.push("/calendar", {iterId});
+                            axios.put("/stops", {
+                                itineraryId: iterId,
+                                timeStart: this.state.startTime,
+                                timeEnd: this.state.endTime,
+                                name: this.state.name,
+                                address: this.state.address,
+                            });
+                        }}
                     />
                 </View>
                 <View style={styles.buttonBackground}>
                     <Button
                         title="Pick a different destination"
-                        onPress={() => this.props.history.push("/destinations")}
+                        onPress={() => this.props.history.goBack()}
                     />
                 </View>
                 <View style={styles.bodyFiller}></View>
