@@ -32,7 +32,7 @@ export class Home extends Component {
                 </View>
                 <View style={styles.homeButtonBackground}>
                     <Button
-                        title="Create A New Itineraries"
+                        title="Create A New Itinerary"
                         onPress={() =>
                             this.props.history.push("/new_itinerary")
                         }
@@ -40,9 +40,9 @@ export class Home extends Component {
                 </View>
                 <View style={styles.homeButtonBackground}>
                     <Button
-                        title="View Saved Itineraries"
+                        title="View Current Itinerary"
                         onPress={() =>
-                            this.props.history.push("/select_itinerary")
+                            this.props.history.push("/itinerary")
                         }
                     />
                 </View>
@@ -81,6 +81,7 @@ export class New_itinerary extends Component {
                         onChangeText={text =>
                             this.setState({arrivalTime: text})
                         }
+                        
                     />
                 </View>
                 <View style={styles.flex}>
@@ -97,7 +98,7 @@ export class New_itinerary extends Component {
                     <SavedItineraries.Consumer>
                         {val => (
                             <Button
-                                title="Search and Create!"
+                                title="Search and Create"
                                 onPress={async () => {
                                     val.clear();
 
@@ -142,9 +143,9 @@ export class New_itinerary extends Component {
                 </View>
                 <View style={styles.buttonBackground}>
                     <Button
-                        title="Go Back and view Saved Itineraries"
+                        title="View Current Itinerary"
                         onPress={() => {
-                            this.props.history.push("/select_itinerary");
+                            this.props.history.push("/itinerary");
                         }}
                     />
                 </View>
@@ -155,7 +156,7 @@ export class New_itinerary extends Component {
 }
 
 
-export class Select_itinerary extends Component {
+export class Itinerary extends Component {
     render() {
         return (
             <>
@@ -185,7 +186,7 @@ export class Destinations extends Component {
                                     {" "}
                                     Select a Destination:{" "}
                                 </Text>
-                                <FlatList data = {val.list} style = {{height: 510}} renderItem={({item: x, index}) => <> 
+                                <FlatList data = {val.list} style = {{height: 525}} renderItem={({item: x, index}) => <> 
                                             {index == 0 && (
                                                 <Text
                                                 style = {styles.destinationHeader}>
@@ -236,8 +237,8 @@ export class Destinations extends Component {
 
                                 </>} />
   
-                                <Link to="/">
-                                    <Text>Bad Dhruv</Text>
+                                <Link to="/New_itinerary">
+                                    <Text style = { styles.destinationGoBack }>Pick a new location</Text>
                                 </Link>
                             </View>
                         )}
@@ -266,7 +267,7 @@ export class New_event extends Component {
                     <Text style={styles.clickerTitle}>{this.state.name}?</Text>
                 </View>
                 <View style={styles.flex}>
-                    <Text style={styles.textBoxTitle}>Destination:</Text>
+                    <Text style={styles.textBoxTitle}>Arrival:</Text>
                     <UselessTextInput                         
                         value={this.state.timeStart}
                         placeholder="12:00 AM"
@@ -275,7 +276,7 @@ export class New_event extends Component {
                         } />
                 </View>
                 <View style={styles.flex}>
-                    <Text style={styles.textBoxTitle}>Arrival Time:</Text>
+                    <Text style={styles.textBoxTitle}>Departure:</Text>
                     <UselessTextInput
                         value={this.state.timeEnd}
                         placeholder="12:00 PM"
@@ -288,7 +289,7 @@ export class New_event extends Component {
                     <Button
                         title="Add to Itinerary"
                         onPress={() =>
-                            this.props.history.push("/select_itinerary")
+                            this.props.history.push("/itinerary")
                         }
                     />
                 </View>

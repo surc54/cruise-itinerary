@@ -88,7 +88,7 @@ export default StyleSheet.create({
         fontSize: 36,
         color: "black",
         backgroundColor: "#F20018",
-        borderRadius: 5,
+        borderRadius: 10,
         display: "flex",
         marginTop: 5,
     },
@@ -108,4 +108,13 @@ export default StyleSheet.create({
         textAlign: "center",
         color: "#FFFFFF",
     },
+    destinationGoBack: {
+        backgroundColor: "#F20018",
+        fontSize: 16,
+        marginRight: 230,
+        marginTop: 7,
+        marginLeft: 15,
+        textAlign: 'center',
+        borderRadius: 10
+    }
 });
