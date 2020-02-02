@@ -9,6 +9,7 @@ import UselessTextInput from "./textInput.js";
 
 import Axios from "axios";
 import SavedItineraries from "./destination.js";
+import { FlatList } from "react-native-gesture-handler";
 
 var searchTerms = [
     "breakfast",
@@ -49,7 +50,6 @@ export class Home extends Component {
 
 export class New_itinerary extends Component {
     state = {destination: "", arrivalTime: "", departureTime: ""};
-
     render() {
         return (
             <>
@@ -138,6 +138,7 @@ export class New_itinerary extends Component {
     }
 }
 
+
 export class Select_itinerary extends Component {
     render() {
         return (
@@ -163,7 +164,7 @@ export class Destinations extends Component {
             <>
                 <StatusBar barStyle="dark-content" backgroundColor="#AAAAFF" />
 
-                <ScrollView>
+                {/* <ScrollView> */}
                     <SavedItineraries.Consumer>
                         {val => (
                             <View style={styles.destinationView}>
@@ -171,39 +172,53 @@ export class Destinations extends Component {
                                     {" "}
                                     Select a Destination:{" "}
                                 </Text>
-                                {(() => {
+                                <FlatList data = {val.list} renderItem={({item: x, index}) => <> 
+                                            {index == 0 && (
+                                                <Text
+                                                style = {styles.destinationHeader}>
+                                                {" "}Food{" "}
+                                                </Text>
+                                            )} 
+                                            {index == 3 && (
+                                                <Text
+                                                style = {styles.destinationHeader}>
+                                                {" "}Entertainment{" "} 
+                                                </Text>
+                                            )} 
+                                            {index == 6 && (
+                                                <Text
+                                                style = {styles.destinationHeader}>
+                                                {" "}Shopping{" "}
+                                                </Text>
+                                            )}                                            
+                                            <Text
+                                                style={styles.destinationName}
+                                                onPress={() => {
+                                                    this.props.history.push(
+                                                        "/new_event",
+                                                    );
+                                                }}>
+                                                {" "}
+                                                • {x.name}{" "}
+                                            </Text>
+                                            
+                                            <Text
+                                                style={styles.destinationAdd}
+                                                onPress={() => {
+                                                    this.props.history.push(
+                                                        "/new_event",
+                                                    );
+                                                }}>
+                                                {" "}
+                                                {
+                                                    x.formatted_address
+                                                }{" "}
+                                            </Text>
+
+                                </>} />
+                                
+                                {/* {(() => {
                                     let arr = [];
-                                    for (let i = 0; i < val.list.length; i++) {
-                                        if (i == 0)
-                                            arr.push(
-                                                <Text
-                                                    style={
-                                                        styles.destinationHeader
-                                                    }>
-                                                    {" "}
-                                                    Food{" "}
-                                                </Text>,
-                                            );
-                                        else if (i == 3)
-                                            arr.push(
-                                                <Text
-                                                    style={
-                                                        styles.destinationHeader
-                                                    }>
-                                                    {" "}
-                                                    Entertainment{" "}
-                                                </Text>,
-                                            );
-                                        else if (i == 6)
-                                            arr.push(
-                                                <Text
-                                                    style={
-                                                        styles.destinationHeader
-                                                    }>
-                                                    {" "}
-                                                    Shopping{" "}
-                                                </Text>,
-                                            );
                                         arr.push(
                                             <Text
                                                 style={styles.destinationName}
@@ -235,14 +250,14 @@ export class Destinations extends Component {
                                         );
                                     }
                                     return arr;
-                                })()}
+                                })()} */}
                                 <Link to="/">
                                     <Text>Bad Dhruv</Text>
                                 </Link>
                             </View>
                         )}
                     </SavedItineraries.Consumer>
-                </ScrollView>
+                {/* </ScrollView> */}
             </>
         );
     }
