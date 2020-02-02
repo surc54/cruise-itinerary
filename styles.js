@@ -19,15 +19,20 @@ export default StyleSheet.create({
         backgroundColor: "#AAAAFF",
         textAlign: 'center',
         fontSize: 36,
-        paddingTop: 30,
+        paddingTop: 20,
+        paddingBottom: 20
     },
     buttonBackground: {
       backgroundColor: "#AAAAFF",
-      paddingTop: 55,
+      paddingTop: 35,
     },
+    homeButtonBackground: {
+        backgroundColor: "#AAAAFF",
+        paddingTop: 55,
+      },
     bodyFiller: {
       backgroundColor: "#AAAAFF",
-      padding: 200,
+      padding: 500,
     },
     textBoxTitle: {
         backgroundColor: "#AAAAFF",
@@ -51,6 +56,32 @@ export default StyleSheet.create({
         marginLeft: 30, 
         backgroundColor: "#FFFFFF",
         fontSize: 15,
-        paddingTop: 10
+        paddingTop: 10,
+        paddingLeft: 15
+    },
+    destinationName: {
+        fontSize: 26,
+        paddingLeft: 20
+    },
+    destinationAdd: {
+        fontSize: 16,
+        paddingLeft: 35,
+    },
+    destinationHeader: {
+        fontSize: 36,
+    },
+    destinationView: {
+        backgroundColor: "#AAAAFF",
+        paddingHorizontal: 10,
+        paddingVertical: 10
+    },
+    WYWG: {
+        fontSize: 36,
+        textAlign: 'center'
+    },
+    clickerTitle: {
+        paddingBottom: 45,
+        fontSize: 36,
+        textAlign: 'center'
     }
   });

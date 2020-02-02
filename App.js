@@ -1,6 +1,12 @@
 import React, {Component} from "react";
-import {NativeRouter, Route, Link, Redirect, Switch} from "react-router-native";
-import {Page1, Page2, Page3, Page4} from "./pages.js";
+import {NativeRouter, Route, Redirect, Switch} from "react-router-native";
+import {
+    Home,
+    New_itinerary,
+    Select_itinerary,
+    Destinations,
+    New_event,
+} from "./pages.js";
 import SavedItineraries from "./destination.js";
 import Calendar from "./calendar.js";
 
@@ -16,6 +22,14 @@ export default class App extends Component {
                     },
                 });
             },
+            clear: () => {
+                this.setState({
+                    savedItineraries: {
+                        ...this.state.savedItineraries,
+                        list: [],
+                    },
+                });
+            },
         },
     };
 
@@ -25,10 +39,17 @@ export default class App extends Component {
             <SavedItineraries.Provider value={this.state.savedItineraries}>
                 <NativeRouter>
                     <Switch>
-                        <Route exact path="/" component={Page1} />
-                        <Route path="/page2" component={Page2} />
-                        <Route path="/page3" component={Page3} />
-                        <Route path="/page4" component={Page4} />
+                        <Route exact path="/" component={Home} />
+                        <Route
+                            path="/new_itinerary"
+                            component={New_itinerary}
+                        />
+                        <Route
+                            path="/select_itinerary"
+                            component={Select_itinerary}
+                        />
+                        <Route path="/destinations" component={Destinations} />
+                        <Route path="/new_event" component={New_event} />
                         <Route path="/calendar" component={Calendar} />
                         <Route render={e => <Redirect to="/" />} />
                         {/* <Route
