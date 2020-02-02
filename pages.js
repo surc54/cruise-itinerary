@@ -1,6 +1,13 @@
 import React, {Component} from "react";
 
-import {Text, View, StatusBar, Button, ScrollView} from "react-native";
+import {
+    Text,
+    View,
+    StatusBar,
+    Button,
+    ScrollView,
+    ActivityIndicator,
+} from "react-native";
 
 import {Link} from "react-router-native";
 
@@ -32,13 +39,17 @@ export class Home extends Component {
                 <View style={styles.homeButtonBackground}>
                     <Button
                         title="Create A New Iteneraries"
-                        onPress={() => this.props.history.push("/new_itinerary")}
+                        onPress={() =>
+                            this.props.history.push("/new_itinerary")
+                        }
                     />
                 </View>
                 <View style={styles.homeButtonBackground}>
                     <Button
                         title="View Saved Iteneraries"
-                        onPress={() => this.props.history.push("/select_itinerary")}
+                        onPress={() =>
+                            this.props.history.push("/select_itinerary")
+                        }
                     />
                 </View>
                 <View style={styles.bodyFiller} />
@@ -96,29 +107,41 @@ export class New_itinerary extends Component {
                                 title="Search and Create!"
                                 onPress={async () => {
                                     val.clear();
-                                    for (
-                                        let i = 0;
-                                        i < searchTerms.length;
-                                        i++
-                                    ) {
-                                        this.props.history.push("/destinations");
-                                        await Axios.get(
-                                            "http://10.136.22.161/test",
-                                            {
-                                                params: {
-                                                    search:
-                                                        searchTerms[i] +
-                                                        " places in " +
-                                                        this.state.destination,
-                                                },
+
+                                    this.props.history.push("/destinations");
+
+                                    Axios.get(
+                                        "http://10.136.207.24/test/multi",
+                                        {
+                                            params: {
+                                                array: searchTerms
+                                                    .map(
+                                                        x =>
+                                                            x +
+                                                            " places in " +
+                                                            this.state
+                                                                .destination,
+                                                    )
+                                                    .join(","),
                                             },
-                                        ).then(response => {
-                                            val.add(
-                                                response.data.info
-                                                    .candidates[0],
+                                        },
+                                    )
+                                        .then(response => {
+                                            if (response.data.status != "ok") {
+                                                console.error("error big no");
+                                            } else {
+                                                // console.log(response.data.data);
+                                                response.data.data.forEach(x =>
+                                                    val.add(x),
+                                                );
+                                            }
+                                        })
+                                        .catch(err => {
+                                            console.error(
+                                                "error big big no",
+                                                err,
                                             );
                                         });
-                                    }
                                 }}
                             />
                         )}
@@ -171,6 +194,15 @@ export class Destinations extends Component {
                                     {" "}
                                     Select a Destination:{" "}
                                 </Text>
+                                {val.list.length === 0 && (
+                                    <View
+                                        style={{
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                        }}>
+                                        <ActivityIndicator style={{}} />
+                                    </View>
+                                )}
                                 {(() => {
                                     let arr = [];
                                     for (let i = 0; i < val.list.length; i++) {
@@ -249,7 +281,6 @@ export class Destinations extends Component {
 }
 
 export class New_event extends Component {
-    
     render() {
         return (
             <>
@@ -268,20 +299,18 @@ export class New_event extends Component {
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Destination:</Text>
-                    <UselessTextInput 
-                        placeholder="12:00 AM"
-                    />
+                    <UselessTextInput placeholder="12:00 AM" />
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Arrival Time:</Text>
-                    <UselessTextInput 
-                        placeholder="12:00 PM"
-                    />
+                    <UselessTextInput placeholder="12:00 PM" />
                 </View>
                 <View style={styles.buttonBackground}>
                     <Button
                         title="Add to Itinerary"
-                        onPress={() => this.props.history.push("/select_itinerary")}
+                        onPress={() =>
+                            this.props.history.push("/select_itinerary")
+                        }
                     />
                 </View>
                 <View style={styles.buttonBackground}>
