@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import {Text, View, StatusBar, Button, ScrollView} from "react-native";
+import {Text, View, StatusBar, Button, FlatList} from "react-native";
 
 import {Link} from "react-router-native";
 
@@ -9,7 +9,6 @@ import UselessTextInput from "./textInput.js";
 
 import Axios from "axios";
 import SavedItineraries from "./destination.js";
-import { FlatList } from "react-native-gesture-handler";
 
 var searchTerms = [
     "breakfast",
@@ -154,7 +153,6 @@ export class New_itinerary extends Component {
     }
 }
 
-
 export class Select_itinerary extends Component {
     render() {
         return (
@@ -176,8 +174,11 @@ export class Destinations extends Component {
     render() {
         return (
             <>
-            <View style={{flex: 1,backgroundColor: '#09367A'}}>
-                <StatusBar barStyle="light-content" backgroundColor="#09367A" />
+                <View style={{flex: 1, backgroundColor: "#09367A"}}>
+                    <StatusBar
+                        barStyle="light-content"
+                        backgroundColor="#09367A"
+                    />
                     <SavedItineraries.Consumer>
                         {val => (
                             <View style={styles.destinationView}>
@@ -185,57 +186,73 @@ export class Destinations extends Component {
                                     {" "}
                                     Select a Destination:{" "}
                                 </Text>
-                                <FlatList data = {val.list} style = {{height: 510}} renderItem={({item: x, index}) => <> 
+                                <FlatList
+                                    data={val.list}
+                                    style={{height: 510}}
+                                    renderItem={({item: x, index}) => (
+                                        <>
                                             {index == 0 && (
                                                 <Text
-                                                style = {styles.destinationHeader}>
-                                                {" "}Food{" "}
+                                                    style={
+                                                        styles.destinationHeader
+                                                    }>
+                                                    {" "}
+                                                    Food{" "}
                                                 </Text>
-                                            )} 
+                                            )}
                                             {index == 3 && (
                                                 <Text
-                                                style = {styles.destinationHeader}>
-                                                {" "}Entertainment{" "} 
+                                                    style={
+                                                        styles.destinationHeader
+                                                    }>
+                                                    {" "}
+                                                    Entertainment{" "}
                                                 </Text>
-                                            )} 
+                                            )}
                                             {index == 6 && (
                                                 <Text
-                                                style = {styles.destinationHeader}>
-                                                {" "}Shopping{" "}
+                                                    style={
+                                                        styles.destinationHeader
+                                                    }>
+                                                    {" "}
+                                                    Shopping{" "}
                                                 </Text>
-                                            )}                                            
+                                            )}
                                             <Text
                                                 style={styles.destinationName}
                                                 onPress={() => {
                                                     this.props.history.push(
-                                                        "/new_event", {
+                                                        "/new_event",
+                                                        {
                                                             name: x.name,
-                                                            address: x.formatted_address
+                                                            address:
+                                                                x.formatted_address,
                                                         },
                                                     );
                                                 }}>
                                                 {" "}
                                                 • {x.name}{" "}
                                             </Text>
-                                            
+
                                             <Text
                                                 style={styles.destinationAdd}
                                                 onPress={() => {
                                                     this.props.history.push(
-                                                        "/new_event", {
+                                                        "/new_event",
+                                                        {
                                                             name: x.name,
-                                                            address: x.formatted_address
+                                                            address:
+                                                                x.formatted_address,
                                                         },
                                                     );
                                                 }}>
                                                 {" "}
-                                                {
-                                                    x.formatted_address
-                                                }{" "}
+                                                {x.formatted_address}{" "}
                                             </Text>
+                                        </>
+                                    )}
+                                />
 
-                                </>} />
-  
                                 <Link to="/">
                                     <Text>Bad Dhruv</Text>
                                 </Link>
@@ -267,21 +284,18 @@ export class New_event extends Component {
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Destination:</Text>
-                    <UselessTextInput                         
+                    <UselessTextInput
                         value={this.state.timeStart}
                         placeholder="12:00 AM"
-                        onChangeText={text =>
-                        this.setState({timeStart: text})
-                        } />
+                        onChangeText={text => this.setState({timeStart: text})}
+                    />
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Arrival Time:</Text>
                     <UselessTextInput
                         value={this.state.timeEnd}
                         placeholder="12:00 PM"
-                        onChangeText={text =>
-                            this.setState({timeEnd: text})
-                        }
+                        onChangeText={text => this.setState({timeEnd: text})}
                     />
                 </View>
                 <View style={styles.buttonBackground}>
