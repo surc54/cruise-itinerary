@@ -1,10 +1,14 @@
 import React, {Component} from "react";
+import {Provider} from "react-redux";
+import reduxThunk from "redux-thunk";
 import {NativeRouter, Route, Link, Redirect, Switch} from "react-router-native";
 import {Page1, Page2, Page3, Page4} from "./pages.js";
 import SavedItineraries from "./destination.js";
 import Calendar from "./calendar.js";
+import {createStore, compose, applyMiddleware} from "redux";
+import reducers from "./reducers";
 
-export default class App extends Component {
+class RawApp extends Component {
     state = {
         savedItineraries: {
             list: [],
@@ -82,3 +86,15 @@ export default class App extends Component {
         );
     }
 }
+
+const store = createStore(reducers, compose(applyMiddleware(reduxThunk)));
+
+const App = () => {
+    return (
+        <Provider store={store}>
+            <RawApp />
+        </Provider>
+    );
+};
+
+export default App;

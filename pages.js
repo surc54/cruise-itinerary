@@ -82,7 +82,7 @@ export class Page2 extends Component {
                                 title="Search and Create!"
                                 onPress={() => {
                                     this.props.history.push("/page4");
-                                    Axios.get("http://10.136.19.7/test", {
+                                    Axios.get("http://10.136.207.24/test", {
                                         params: {
                                             search:
                                                 "breakfast " +
@@ -137,7 +137,10 @@ export class Page4 extends Component {
                             Page4: Testing getting results from Google API
                         </Text>
                         <Text>list length: {val.list.length}</Text>
-                        <Text>{val.list.length > 0 && val.list[0].formatted_address}</Text>
+                        <Text>
+                            {val.list.length > 0 &&
+                                val.list[0].formatted_address}
+                        </Text>
                         <Link to="/">
                             <Text>Bad Dhruv</Text>
                         </Link>
