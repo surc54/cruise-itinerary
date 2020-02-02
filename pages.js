@@ -209,7 +209,10 @@ export class Destinations extends Component {
                                                 style={styles.destinationName}
                                                 onPress={() => {
                                                     this.props.history.push(
-                                                        "/new_event",
+                                                        "/new_event", {
+                                                            name: x.name,
+                                                            address: x.formatted_address
+                                                        },
                                                     );
                                                 }}>
                                                 {" "}
@@ -220,7 +223,10 @@ export class Destinations extends Component {
                                                 style={styles.destinationAdd}
                                                 onPress={() => {
                                                     this.props.history.push(
-                                                        "/new_event",
+                                                        "/new_event", {
+                                                            name: x.name,
+                                                            address: x.formatted_address
+                                                        },
                                                     );
                                                 }}>
                                                 {" "}
