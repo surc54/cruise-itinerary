@@ -3,12 +3,13 @@ import {NativeRouter, Route, Redirect, Switch} from "react-router-native";
 import {
     Home,
     New_itinerary,
-    Itinerary,
     Destinations,
     New_event,
 } from "./pages.js";
 import SavedItineraries from "./destination.js";
 import Calendar from "./calendar.js";
+
+console.disableYellowBox = true;
 
 export default class App extends Component {
     state = {
@@ -43,10 +44,6 @@ export default class App extends Component {
                         <Route
                             path="/new_itinerary"
                             component={New_itinerary}
-                        />
-                        <Route
-                            path="/itinerary"
-                            component={Itinerary}
                         />
                         <Route path="/destinations" component={Destinations} />
                         <Route path="/new_event" component={New_event} />

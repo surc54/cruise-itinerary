@@ -1,6 +1,14 @@
 import React, {Component} from "react";
 
-import {Text, View, StatusBar, Button, FlatList} from "react-native";
+import {
+    Text,
+    View,
+    StatusBar,
+    Image,
+    FlatList,
+    TouchableOpacity,
+    ImageBackground,
+} from "react-native";
 
 import {Link} from "react-router-native";
 
@@ -27,27 +35,46 @@ export class Home extends Component {
     render() {
         return (
             <>
-                <StatusBar barStyle="light-content" backgroundColor="#F20018" />
-                <View style={styles.homeBackground}>
-                    <Text style={styles.homeTitle}>Welcome Message</Text>
-                </View>
-                <View style={styles.homeButtonBackground}>
-                    <Button
-                        title="Create A New Itinerary"
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor="#F2001800"
+                    translucent
+                />
+                    <ImageBackground
+                        style={ styles.backgroundImage }
+                        source={require("./Logo.png")}
+                         >
+                <View style={styles.homeButtonOne}>
+                    <TouchableOpacity
+                        style={styles.newButton}
                         onPress={() =>
                             this.props.history.push("/new_itinerary")
-                        }
-                    />
+                        }>
+                        <Text
+                            style={{
+                                color: "white",
+                                fontSize: 20,
+                                textAlign: "center",
+                            }}>
+                            Create A New Itinerary
+                        </Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.homeButtonBackground}>
-                    <Button
-                        title="View Current Itinerary"
-                        onPress={() =>
-                            this.props.history.push("/calendar", {latest: true})
-                        }
-                    />
+                <View style={styles.homeButtonTwo}>
+                    <TouchableOpacity
+                        style={styles.newButton}
+                        onPress={() => this.props.history.push("/calendar")}>
+                        <Text
+                            style={{
+                                color: "white",
+                                fontSize: 20,
+                                textAlign: "center",
+                            }}>
+                            View Current Itinerary
+                        </Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.bodyFiller} />
+                </ImageBackground>
             </>
         );
     }
@@ -86,7 +113,6 @@ export class New_itinerary extends Component {
                         onChangeText={text =>
                             this.setState({arrivalTime: text})
                         }
-                        
                     />
                 </View>
                 <View style={styles.flex}>
@@ -102,8 +128,8 @@ export class New_itinerary extends Component {
                 <View style={styles.buttonBackground}>
                     <SavedItineraries.Consumer>
                         {val => (
-                            <Button
-                                title="Search and Create"
+                            <TouchableOpacity
+                                style={styles.newButton}
                                 onPress={async () => {
                                     val.clear();
 
@@ -151,40 +177,38 @@ export class New_itinerary extends Component {
                                                 err,
                                             );
                                         });
-                                }}
-                            />
+                                }}>
+                                <Text
+                                    style={{
+                                        color: "white",
+                                        fontSize: 20,
+                                        textAlign: "center",
+                                    }}>
+                                    Search and Create!
+                                </Text>
+                            </TouchableOpacity>
                         )}
                     </SavedItineraries.Consumer>
                 </View>
                 <View style={styles.buttonBackground}>
-                    <Button
-                        title="View Current Itinerary"
-                        onPress={() => {
+                    <TouchableOpacity
+                        style={styles.newButton}
+                        onPress={() =>
                             this.props.history.push("/calendar", {
                                 latest: true,
-                            });
-                        }}
-                    />
+                            })
+                        }>
+                        <Text
+                            style={{
+                                color: "white",
+                                fontSize: 20,
+                                textAlign: "center",
+                            }}>
+                            View Current Itinerary
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.bodyFiller} />
-            </>
-        );
-    }
-}
-
-
-export class Itinerary extends Component {
-    render() {
-        return (
-            <>
-                <StatusBar barStyle="dark-content" backgroundColor="#AAAAFF" />
-                <View>
-                    <Text>Soon to be Itinerary</Text>
-
-                    <Link to="/">
-                        <Text>Bad Dhruv</Text>
-                    </Link>
-                </View>
             </>
         );
     }
@@ -207,7 +231,11 @@ export class Destinations extends Component {
                                     {" "}
                                     Select a Destination:{" "}
                                 </Text>
-                                <FlatList data = {val.list} style = {{height: 525}} renderItem={({item: x, index}) => <> 
+                                <FlatList
+                                    data={val.list}
+                                    style={{height: 525}}
+                                    renderItem={({item: x, index}) => (
+                                        <>
                                             {index == 0 && (
                                                 <Text
                                                     style={
@@ -269,13 +297,15 @@ export class Destinations extends Component {
                                                 {x.formatted_address}{" "}
                                             </Text>
                                         </>
-                                    }
+                                    )}
                                 />
 
                                 <Link to="/New_itinerary">
-                                    <Text style = { styles.destinationGoBack }>Pick a new location</Text>
+                                    <Text style={styles.destinationGoBack}>
+                                        Pick a new city
+                                    </Text>
                                 </Link>
-                                </View>
+                            </View>
                         )}
                     </SavedItineraries.Consumer>
                 </View>
@@ -307,7 +337,7 @@ export class New_event extends Component {
                 </View>
                 <View style={styles.flex}>
                     <Text style={styles.textBoxTitle}>Arrival:</Text>
-                    <UselessTextInput                         
+                    <UselessTextInput
                         value={this.state.timeStart}
                         placeholder="12:00 AM"
                         onChangeText={text => this.setState({startTime: text})}
@@ -322,8 +352,8 @@ export class New_event extends Component {
                     />
                 </View>
                 <View style={styles.buttonBackground}>
-                    <Button
-                        title="Add to Itinerary"
+                    <TouchableOpacity
+                        style={styles.newButton}
                         onPress={() => {
                             this.props.history.push("/calendar", {iterId});
                             axios.put("/stops", {
@@ -333,14 +363,30 @@ export class New_event extends Component {
                                 name: this.state.name,
                                 address: this.state.address,
                             });
-                        }}
-                    />
+                        }}>
+                        <Text
+                            style={{
+                                color: "white",
+                                fontSize: 20,
+                                textAlign: "center",
+                            }}>
+                            Add to Itinerary
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.buttonBackground}>
-                    <Button
-                        title="Pick a different destination"
-                        onPress={() => this.props.history.goBack()}
-                    />
+                    <TouchableOpacity
+                        style={styles.newButton}
+                        onPress={() => this.props.history.goBack()}>
+                        <Text
+                            style={{
+                                color: "white",
+                                fontSize: 20,
+                                textAlign: "center",
+                            }}>
+                            Pick a different destination
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.bodyFiller}></View>
             </>

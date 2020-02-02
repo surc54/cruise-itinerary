@@ -116,5 +116,33 @@ export default StyleSheet.create({
         marginLeft: 15,
         textAlign: 'center',
         borderRadius: 10
+    },
+    newButton: {
+        backgroundColor: "#F20018",
+        textAlign: "center",
+        paddingTop: 20,
+        paddingBottom: 20,
+        justifyContent: "center",
+        height: 50,
+        borderRadius: 6,
+        marginHorizontal: 70,
+    },
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        width: "100%",
+        height: "100%"
+    },
+    homeButtonOne: {
+        backgroundColor: "#09367A",
+        position: 'absolute',
+        top: 400,
+        width: "100%"
+    },
+    homeButtonTwo: {
+        backgroundColor: "#09367A",
+        position: 'absolute',
+        top: 500,
+        width: "100%"
     }
 });
