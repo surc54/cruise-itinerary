@@ -14,7 +14,7 @@ let requests = "&inputtype=textquery&fields=name,formatted_address"; // add more
 
 router.get("/", (req, res) => {
     let urlForAPI =
-        API + encodeURIComponent(req.query.search) + requests + keys.APIKey;
+        API + encodeURIComponent(req.query.search) + requests + keys.google.key;
 
     axios
         .get(urlForAPI) // put url when ready
