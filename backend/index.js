@@ -5,6 +5,7 @@ import "colors";
 import routers from "./routes/index.js";
 import database from "./db.js";
 import session from "express-session";
+import keys from "./config/keys.js";
 
 const PORT = 80;
 
@@ -15,7 +16,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(
     session({
-        secret: "9nv8949qn4qn89qrpc89qvr9nv89",
+        secret: keys.cookie,
         resave: true,
         saveUninitialized: true,
     }),

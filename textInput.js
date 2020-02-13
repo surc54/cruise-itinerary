@@ -8,6 +8,6 @@ export default function UselessTextInput(props) {
     <TextInput
       style={ styles.textBox }
       {...props}
-    />
+      />
   );
 }

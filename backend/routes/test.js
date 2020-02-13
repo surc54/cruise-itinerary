@@ -14,7 +14,7 @@ let requests = "&inputtype=textquery&fields=name,formatted_address"; // add more
 
 router.get("/", (req, res) => {
     let urlForAPI =
-        API + encodeURIComponent(req.query.search) + requests + keys.APIKey;
+        API + encodeURIComponent(req.query.search) + requests + keys.google.key;
 
     axios
         .get(urlForAPI) // put url when ready
@@ -44,6 +44,49 @@ router.get("/", (req, res) => {
                 }
             },
         );
+});
+
+router.get("/multi", (req, res) => {
+    let {array} = req.query;
+
+    if (!array) {
+        throw new Error("array is not defined");
+    }
+
+    array = array.split(",");
+
+    let promises = [];
+
+    for (let i = 0; i < array.length; i++) {
+        const search = array[i];
+        let urlForAPI =
+            API + encodeURIComponent(search) + requests + keys.APIKey;
+
+        promises.push(axios.get(urlForAPI));
+    }
+
+    Promise.all(promises)
+        .then(responses => {
+            const results = responses.map(response => {
+                if (response.data.status === "ZERO_RESULTS") {
+                    return {};
+                } else {
+                    return response.data.candidates[0] || {};
+                }
+            });
+
+            res.send({
+                status: "ok",
+                data: results,
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({
+                status: "fail",
+                message: err || "unknown error",
+            });
+        });
 });
 
 export default router;
